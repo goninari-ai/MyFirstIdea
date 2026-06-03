@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 첫번째 아이디어</title>
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="세상을 바꾸는 첫 번째 생각, 내 첫번째 아이디어를 소개합니다.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Deep midnight blue backgrounds */
+            --bg-color-1: #020617; 
+            --bg-color-2: #081330;
+            --bg-color-3: #0f172a;
+            
+            /* Blue glowing accent */
+            --accent-glow: radial-gradient(circle 500px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(56, 189, 248, 0.15), transparent 80%);
+            
+            /* Card glassmorphism */
+            --card-bg: rgba(255, 255, 255, 0.02);
+            --card-border: rgba(255, 255, 255, 0.05);
+            
+            /* Text */
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            
+            /* Sky Blue to Deep Blue gradient */
+            --primary-gradient: linear-gradient(135deg, #7dd3fc 0%, #38bdf8 50%, #2563eb 100%);
+            --button-glow: rgba(59, 130, 246, 0.35);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color-1);
+            background-image: radial-gradient(circle at 50% 50%, var(--bg-color-2), var(--bg-color-1));
+            font-family: 'Outfit', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Mouse Spotlight glow backdrop */
+        .spotlight {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-glow);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Ambient floating thought particles canvas */
+        #particleCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            padding: 24px;
+            width: 100%;
+            max-width: 650px; /* Slightly wider to accommodate larger text */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Main Glassmorphic Card */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-radius: 28px;
+            padding: 56px 48px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            position: relative;
+            overflow: hidden;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                        border-color 0.5s ease, 
+                        box-shadow 0.5s ease;
+        }
+
+        /* Top border gradient glow - Blue theme */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 28px;
+            padding: 1.5px;
+            background: linear-gradient(135deg, rgba(125, 211, 252, 0.25), rgba(56, 189, 248, 0.25), rgba(37, 99, 235, 0.25));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            opacity: 0.6;
+            transition: opacity 0.5s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(56, 189, 248, 0.25);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), 
+                        0 0 40px rgba(56, 189, 248, 0.1),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        /* Internal light leak ambient glow */
+        .card-glow {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: var(--primary-gradient);
+            filter: blur(90px);
+            top: -70px;
+            left: -70px;
+            opacity: 0.12;
+            pointer-events: none;
+            transition: all 0.6s ease;
+        }
+
+        .card:hover .card-glow {
+            opacity: 0.25;
+            transform: translate(60px, 60px) scale(1.3);
+        }
+
+        /* Icon styling - Blue Theme */
+        .icon-wrapper {
+            width: 84px;
+            height: 84px;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, rgba(37, 99, 235, 0.08) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 22px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 36px auto;
+            position: relative;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .card:hover .icon-wrapper {
+            transform: rotate(-5deg) scale(1.08);
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.12) 0%, rgba(37, 99, 235, 0.12) 100%);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .idea-icon {
+            width: 44px;
+            height: 44px;
+            color: #38bdf8;
+            filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.4));
+            animation: pulseGlow 3s infinite ease-in-out;
+        }
+
+        /* Gradient title - LARGER and BLUE */
+        .title {
+            font-size: 4rem; /* Increased significantly from 2.8rem */
+            font-weight: 800;
+            margin-bottom: 16px;
+            line-height: 1.1;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.03em;
+            position: relative;
+            display: inline-block;
+            cursor: text;
+            outline: none;
+            padding: 4px 10px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            word-break: keep-all; /* Keeps words together elegantly */
+        }
+
+        .title:hover {
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        .title:focus {
+            background-color: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Text glow backing */
+        .title::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 10px;
+            top: 4px;
+            width: calc(100% - 20px);
+            height: 100%;
+            z-index: -1;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+            filter: blur(18px);
+            opacity: 0.35;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .card:hover .title::after {
+            opacity: 0.6;
+        }
+
+        /* Floating editor tooltip hint */
+        .edit-hint {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .title:hover ~ .edit-hint,
+        .edit-hint:hover {
+            opacity: 1;
+        }
+
+        .edit-icon {
+            width: 12px;
+            height: 12px;
+        }
+
+        /* Subtitle description */
+        .subtitle {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-bottom: 36px;
+            word-break: keep-all;
+        }
+
+        /* Tags / Badges list */
+        .badge-container {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover .badge {
+            background: rgba(56, 189, 248, 0.08);
+            border-color: rgba(56, 189, 248, 0.2);
+            color: #bae6fd;
+        }
+
+        /* Interactive Action Button */
+        .cta-button {
+            background: var(--primary-gradient);
+            color: #ffffff;
+            border: none;
+            border-radius: 16px;
+            padding: 18px 40px;
+            font-family: inherit;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 10px 25px var(--button-glow),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        /* Shine reflection effect on hover */
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.03) translateY(-2px);
+            box-shadow: 0 15px 30px var(--button-glow),
+                        0 0 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .cta-button:active {
+            transform: scale(0.97) translateY(0);
+        }
+
+        .btn-arrow {
+            width: 18px;
+            height: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover .btn-arrow {
+            transform: translateX(4px);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.4));
+                transform: scale(1);
+            }
+            50% {
+                filter: drop-shadow(0 0 18px rgba(56, 189, 248, 0.8));
+                transform: scale(1.06);
+            }
+        }
+
+        /* Responsiveness */
+        @media (max-width: 600px) {
+            .card {
+                padding: 44px 28px;
+                border-radius: 24px;
+            }
+            .title {
+                font-size: 2.6rem; /* Scaled down for mobile but still much larger than before */
+            }
+            .subtitle {
+                font-size: 0.95rem;
+            }
+            .cta-button {
+                padding: 16px 28px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating particle context background -->
+    <canvas id="particleCanvas"></canvas>
+    
+    <!-- Cursor-following light layer -->
+    <div class="spotlight"></div>
+    
+    <main class="container">
+        <article class="card" id="ideaCard">
+            <div class="card-glow"></div>
+            
+            <div class="icon-wrapper">
+                <!-- Glowing bulb icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="idea-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 0 0 6-6c0-1.74-.74-3.31-1.91-4.41L15 7.5a3 3 0 0 0-6 0l-.09.84A5.992 5.992 0 0 0 6 12.75a6 6 0 0 0 6 6ZM13.5 20.25h-3c0 .621.504 1.125 1.125 1.125h.75c.621 0 1.125-.504 1.125-1.125Z" />
+                </svg>
+            </div>
+            
+            <!-- Editable Title: displays the requested text -->
+            <h1 class="title" contenteditable="true" data-text="내 첫번재 아이디어" spellcheck="false" id="ideaTitle">내 첫번재 아이디어</h1>
+            
+            <div class="edit-hint">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="edit-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+                </svg>
+                <span>클릭하여 내용을 수정할 수 있습니다</span>
+            </div>
+            
+            <p class="subtitle">모든 위대한 혁신은 단 하나의 작은 생각에서 시작됩니다. 화면의 빈 곳을 마우스로 클릭하거나 터치하여 반짝이는 아이디어의 불꽃을 피워보세요.</p>
+            
+            <div class="badge-container">
+                <span class="badge">Idea Spark</span>
+                <span class="badge">Creative Space</span>
+                <span class="badge">Innovation</span>
+            </div>
+            
+            <button class="cta-button" id="exploreBtn">
+                <span>프로젝트 시작하기</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-arrow">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                </svg>
+            </button>
+        </article>
+    </main>
+
+    <script>
+        // --- 1. Cursor Spotlight Position Handler ---
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) * 100;
+            const y = (e.clientY / window.innerHeight) * 100;
+            document.documentElement.style.setProperty('--mouse-x', `${x}%`);
+            document.documentElement.style.setProperty('--mouse-y', `${y}%`);
+        });
+
+        // --- 2. Interactive Title Storage & Editor Management ---
+        const titleEl = document.getElementById('ideaTitle');
+        const defaultText = '내 첫번재 아이디어';
+
+        // Load saved idea from client local storage
+        const savedIdea = localStorage.getItem('myFirstIdea');
+        if (savedIdea) {
+            titleEl.textContent = savedIdea;
+            titleEl.setAttribute('data-text', savedIdea);
+        } else {
+            titleEl.textContent = defaultText;
+            titleEl.setAttribute('data-text', defaultText);
+        }
+
+        // Save text changes automatically on blur (focus lost)
+        titleEl.addEventListener('blur', () => {
+            let text = titleEl.textContent.trim();
+            if (!text) {
+                text = defaultText;
+                titleEl.textContent = text;
+            }
+            localStorage.setItem('myFirstIdea', text);
+            titleEl.setAttribute('data-text', text);
+        });
+
+        // Save on hitting 'Enter' key and trigger blur
+        titleEl.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                titleEl.blur();
+            }
+        });
+
+        // --- 3. Interactive Particles & Spark Canvas Engine ---
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let particles = [];
+        let sparks = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Slow ambient rising ideas
+        class Particle {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * canvas.height; // spread initially so they don't start only at the bottom
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + 20;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedY = -(Math.random() * 0.4 + 0.15);
+                this.speedX = Math.random() * 0.3 - 0.15;
+                this.alpha = Math.random() * 0.4 + 0.1;
+            }
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                if (this.y < -10) {
+                    this.reset();
+                }
+            }
+            draw() {
+                // Blue Theme Particles
+                ctx.fillStyle = `rgba(56, 189, 248, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // Fast sparks emitted upon clicking
+        class Spark {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 3.5 + 1;
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 4.5 + 1.5;
+                this.speedX = Math.cos(angle) * speed;
+                this.speedY = Math.sin(angle) * speed;
+                this.alpha = 1;
+                this.decay = Math.random() * 0.02 + 0.012;
+                // Blue/Cyan/Azure Hue Spectrum (190 to 230)
+                const hue = [190, 200, 215, 230][Math.floor(Math.random() * 4)] + (Math.random() * 10 - 5);
+                this.color = `hsl(${hue}, 100%, 65%)`;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.speedY += 0.04; // gravity force
+                this.alpha -= this.decay;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.shadowBlur = 12;
+                ctx.shadowColor = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        // Initialize background particles
+        const particleCount = Math.min(Math.floor(window.innerWidth / 30), 50);
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        // Screen Click listener (spawns sparks)
+        window.addEventListener('click', (e) => {
+            // Avoid spawning sparks if clicking directly on interactive elements like input fields or buttons
+            if (e.target.closest('button') || e.target.closest('.title')) return;
+            createSparks(e.clientX, e.clientY);
+        });
+
+        // Touch listener for mobile devices
+        window.addEventListener('touchstart', (e) => {
+            if (e.target.closest('button') || e.target.closest('.title')) return;
+            const touch = e.touches[0];
+            createSparks(touch.clientX, touch.clientY);
+        });
+
+        function createSparks(x, y) {
+            const count = Math.random() * 10 + 12;
+            for (let i = 0; i < count; i++) {
+                sparks.push(new Spark(x, y));
+            }
+        }
+
+        // Animation Loop
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Render ambient floating particles
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            
+            // Render sparks
+            for (let i = sparks.length - 1; i >= 0; i--) {
+                const s = sparks[i];
+                s.update();
+                if (s.alpha <= 0) {
+                    sparks.splice(i, 1);
+                } else {
+                    s.draw();
+                }
+            }
+            
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Button click effect (creates sparks around the button)
+        document.getElementById('exploreBtn').addEventListener('click', (e) => {
+            const rect = e.target.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            createSparks(centerX, centerY);
+        });
+    </script>
+</body>
+</html>
