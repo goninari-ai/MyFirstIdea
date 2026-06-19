@@ -275,18 +275,7 @@
             word-break: keep-all;
         }
 
-        /* Responsive Layout for Mobile */
-        @media (max-width: 950px) {
-            .main-sections-container {
-                grid-template-columns: 1fr;
-                gap: 40px;
-                max-width: 650px;
-            }
-            
-            .testimonials-section {
-                padding: 32px 24px;
-            }
-        }
+
 
         /* Main Content Style */
         .app-main {
@@ -653,21 +642,77 @@
             }
         }
 
-        /* Responsiveness */
-        @media (max-width: 600px) {
+        /* Responsiveness (Tablet/Mobile, 768px and below) */
+        @media (max-width: 768px) {
+            /* Header vertical layout */
+            .header-content {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+            
+            .header-nav {
+                flex-direction: column;
+                gap: 8px;
+                width: 100%;
+            }
+            
+            .nav-item {
+                width: 100%;
+                padding: 10px 0;
+                background: rgba(255, 255, 255, 0.04);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+            }
+            
+            .nav-item:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+            
+            .nav-item::after {
+                display: none; /* Hide hover underline in vertical stack */
+            }
+
+            /* Main body responsive layout */
+            .main-sections-container {
+                grid-template-columns: 1fr;
+                gap: 32px;
+                max-width: 650px;
+            }
+
             .card {
-                padding: 44px 28px;
+                padding: 36px 24px;
                 border-radius: 24px;
             }
-            .title {
-                font-size: 32px; /* Scaled down for mobile */
+            
+            .testimonials-section {
+                padding: 32px 24px;
+                border-radius: 24px;
             }
+
+            /* Typography scaling for smaller screens */
+            .title {
+                font-size: 32px;
+            }
+            
             .subtitle {
                 font-size: 0.95rem;
+                margin-bottom: 28px;
             }
+            
+            .review-text {
+                font-size: 0.85rem;
+            }
+
+            .badge-container {
+                margin-bottom: 28px;
+            }
+
+            /* Touch target optimization for button */
             .cta-button {
-                padding: 16px 28px;
+                padding: 16px 32px;
                 width: 100%;
+                min-height: 52px; /* Touch-friendly size */
+                font-size: 1rem;
             }
         }
     </style>
