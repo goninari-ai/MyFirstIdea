@@ -357,6 +357,45 @@
             transform: scale(0.97) translateY(0);
         }
 
+        /* Dynamic Button Themes */
+        .cta-button.btn-blue {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        .cta-button.btn-blue:hover {
+            box-shadow: 0 15px 30px rgba(37, 99, 235, 0.35), 0 0 25px rgba(37, 99, 235, 0.15);
+        }
+
+        .cta-button.btn-yellow {
+            background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%); /* Yellow 500 to 600 */
+            color: #0f172a !important; /* Dark text for yellow readability */
+            box-shadow: 0 10px 25px rgba(234, 179, 8, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+        .cta-button.btn-yellow:hover {
+            box-shadow: 0 15px 30px rgba(234, 179, 8, 0.35), 0 0 25px rgba(234, 179, 8, 0.15);
+        }
+        .cta-button.btn-yellow .btn-arrow {
+            color: #0f172a;
+        }
+
+        .cta-button.btn-orange {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); /* Orange 500 to 600 */
+            color: #ffffff !important;
+            box-shadow: 0 10px 25px rgba(249, 115, 22, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        .cta-button.btn-orange:hover {
+            box-shadow: 0 15px 30px rgba(249, 115, 22, 0.35), 0 0 25px rgba(249, 115, 22, 0.15);
+        }
+
+        .cta-button.btn-green {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); /* Green 500 to 600 */
+            color: #ffffff !important;
+            box-shadow: 0 10px 25px rgba(34, 197, 94, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        .cta-button.btn-green:hover {
+            box-shadow: 0 15px 30px rgba(34, 197, 94, 0.35), 0 0 25px rgba(34, 197, 94, 0.15);
+        }
+
         .btn-arrow {
             width: 18px;
             height: 18px;
@@ -446,7 +485,7 @@
             </div>
             
             <!-- Next Quote Trigger Button (Renamed & Styled from exploreBtn) -->
-            <button class="cta-button" id="exploreBtn">
+            <button class="cta-button btn-blue" id="exploreBtn">
                 <span>다음 문장 보기</span>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="btn-arrow">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
@@ -468,6 +507,22 @@
         const titleEl = document.getElementById('ideaTitle');
         const defaultText = '오늘도 힘내세요!';
 
+        const exploreBtn = document.getElementById('exploreBtn');
+
+        // Dynamic theme switcher for Next Button based on current quote text
+        function updateButtonTheme(quoteText) {
+            exploreBtn.classList.remove('btn-blue', 'btn-yellow', 'btn-orange', 'btn-green');
+            if (quoteText === "오늘도 해냈어요!") {
+                exploreBtn.classList.add('btn-yellow');
+            } else if (quoteText === "조금씩 나아지고 있어요.") {
+                exploreBtn.classList.add('btn-orange');
+            } else if (quoteText === "이대로 계속 가봅시다.") {
+                exploreBtn.classList.add('btn-green');
+            } else {
+                exploreBtn.classList.add('btn-blue');
+            }
+        }
+
         // Load saved idea from client local storage
         const savedIdea = localStorage.getItem('dailyCheerText');
         if (savedIdea) {
@@ -477,6 +532,8 @@
             titleEl.textContent = defaultText;
             titleEl.setAttribute('data-text', defaultText);
         }
+        // Initialize theme based on loaded content
+        updateButtonTheme(titleEl.textContent.trim());
 
         // Save text changes automatically on blur (focus lost)
         titleEl.addEventListener('blur', () => {
@@ -487,6 +544,7 @@
             }
             localStorage.setItem('dailyCheerText', text);
             titleEl.setAttribute('data-text', text);
+            updateButtonTheme(text);
         });
 
         // Save on hitting 'Enter' key and trigger blur
@@ -506,7 +564,6 @@
         ];
         let currentQuoteIndex = quotes.indexOf(titleEl.textContent) !== -1 ? quotes.indexOf(titleEl.textContent) : 0;
 
-        const exploreBtn = document.getElementById('exploreBtn');
         exploreBtn.addEventListener('click', () => {
             currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
             const newQuote = quotes[currentQuoteIndex];
@@ -522,6 +579,9 @@
                 
                 titleEl.style.opacity = 1;
                 titleEl.style.transform = 'translateY(0)';
+                
+                // Update color theme matching the quote
+                updateButtonTheme(newQuote);
                 
                 // Trigger sparks at the button
                 const rect = exploreBtn.getBoundingClientRect();
