@@ -12,26 +12,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Deep midnight blue backgrounds */
-            --bg-color-1: #020617; 
-            --bg-color-2: #081330;
-            --bg-color-3: #0f172a;
+            /* Elegant light gray backgrounds */
+            --bg-color-1: #f8fafc; /* Slate 50 */
+            --bg-color-2: #e2e8f0; /* Slate 200 */
+            --bg-color-3: #ffffff;
             
-            /* Blue glowing accent */
-            --accent-glow: radial-gradient(circle 500px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(56, 189, 248, 0.15), transparent 80%);
+            /* Soft warm-white/indigo radial light glow */
+            --accent-glow: radial-gradient(circle 600px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(99, 102, 241, 0.08), rgba(255, 255, 255, 0.7) 70%, transparent 100%);
             
-            /* Card glassmorphism */
-            --card-bg: rgba(255, 255, 255, 0.02);
-            --card-border: rgba(255, 255, 255, 0.05);
+            /* Premium light card glassmorphism */
+            --card-bg: rgba(255, 255, 255, 0.65);
+            --card-border: rgba(255, 255, 255, 0.8);
             
-            /* Text */
-            --text-primary: #ffffff;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
+            /* Deep luxurious text colors */
+            --text-primary: #0f172a;   /* Slate 900 */
+            --text-secondary: #475569; /* Slate 600 */
+            --text-muted: #94a3b8;     /* Slate 400 */
             
-            /* Sky Blue to Deep Blue gradient */
-            --primary-gradient: linear-gradient(135deg, #7dd3fc 0%, #38bdf8 50%, #2563eb 100%);
-            --button-glow: rgba(59, 130, 246, 0.35);
+            /* Luxurious Dark Indigo-Slate gradient for typography */
+            --primary-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            /* Indigo to Blue gradient for main CTA button */
+            --cta-gradient: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+            --button-glow: rgba(79, 70, 229, 0.25);
         }
 
         * {
@@ -42,7 +44,7 @@
 
         body {
             background-color: var(--bg-color-1);
-            background-image: radial-gradient(circle at 50% 50%, var(--bg-color-2), var(--bg-color-1));
+            background-image: radial-gradient(circle at 50% 30%, #ffffff 0%, var(--bg-color-2) 100%);
             font-family: 'Outfit', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
             color: var(--text-primary);
             min-height: 100vh;
@@ -81,7 +83,7 @@
             z-index: 2;
             padding: 24px;
             width: 100%;
-            max-width: 650px; /* Slightly wider to accommodate larger text */
+            max-width: 650px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -91,14 +93,15 @@
         .card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
             border-radius: 28px;
             padding: 56px 48px;
             width: 100%;
             text-align: center;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 
-                        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            box-shadow: 0 30px 70px rgba(15, 23, 42, 0.06), 
+                        0 0 1px rgba(15, 23, 42, 0.05),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.9);
             position: relative;
             overflow: hidden;
             transform: translateY(30px);
@@ -109,7 +112,7 @@
                         box-shadow 0.5s ease;
         }
 
-        /* Top border gradient glow - Blue theme */
+        /* Top border gradient glow */
         .card::before {
             content: '';
             position: absolute;
@@ -119,21 +122,21 @@
             bottom: 0;
             border-radius: 28px;
             padding: 1.5px;
-            background: linear-gradient(135deg, rgba(125, 211, 252, 0.25), rgba(56, 189, 248, 0.25), rgba(37, 99, 235, 0.25));
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4), rgba(79, 70, 229, 0.15));
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
             pointer-events: none;
-            opacity: 0.6;
+            opacity: 0.8;
             transition: opacity 0.5s ease;
         }
 
         .card:hover {
             transform: translateY(-8px);
-            border-color: rgba(56, 189, 248, 0.25);
-            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), 
-                        0 0 40px rgba(56, 189, 248, 0.1),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 45px 90px rgba(15, 23, 42, 0.1), 
+                        0 0 40px rgba(79, 70, 229, 0.05),
+                        inset 0 1px 0 rgba(255, 255, 255, 1);
         }
 
         .card:hover::before {
@@ -143,57 +146,59 @@
         /* Internal light leak ambient glow */
         .card-glow {
             position: absolute;
-            width: 200px;
-            height: 200px;
-            background: var(--primary-gradient);
-            filter: blur(90px);
-            top: -70px;
-            left: -70px;
-            opacity: 0.12;
+            width: 240px;
+            height: 240px;
+            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+            filter: blur(80px);
+            top: -90px;
+            left: -90px;
+            opacity: 0.35;
             pointer-events: none;
             transition: all 0.6s ease;
         }
 
         .card:hover .card-glow {
-            opacity: 0.25;
-            transform: translate(60px, 60px) scale(1.3);
+            opacity: 0.6;
+            transform: translate(40px, 40px) scale(1.2);
         }
 
-        /* Icon styling - Blue Theme */
+        /* Icon styling */
         .icon-wrapper {
             width: 84px;
             height: 84px;
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, rgba(37, 99, 235, 0.08) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+            border: 1px solid rgba(15, 23, 42, 0.04);
             border-radius: 22px;
             display: flex;
             justify-content: center;
             align-items: center;
             margin: 0 auto 36px auto;
             position: relative;
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.03);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .card:hover .icon-wrapper {
             transform: rotate(-5deg) scale(1.08);
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.12) 0%, rgba(37, 99, 235, 0.12) 100%);
-            border-color: rgba(255, 255, 255, 0.12);
+            background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+            border-color: rgba(79, 70, 229, 0.15);
+            box-shadow: 0 12px 28px rgba(79, 70, 229, 0.08);
         }
 
         .idea-icon {
             width: 44px;
             height: 44px;
-            color: #38bdf8;
-            filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.4));
+            color: #4f46e5;
+            filter: drop-shadow(0 4px 8px rgba(79, 70, 229, 0.25));
             animation: pulseGlow 3s infinite ease-in-out;
         }
 
-        /* Gradient title - LARGER and BLUE */
+        /* Gradient title */
         .title {
-            font-size: 4rem; /* Increased significantly from 2.8rem */
+            font-size: 40px; /* Adjusted to 40px */
             font-weight: 800;
             margin-bottom: 16px;
-            line-height: 1.1;
+            line-height: 1.2;
             background: var(--primary-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -207,16 +212,16 @@
             padding: 4px 10px;
             border-radius: 8px;
             transition: background-color 0.3s ease;
-            word-break: keep-all; /* Keeps words together elegantly */
+            word-break: keep-all;
         }
 
         .title:hover {
-            background-color: rgba(255, 255, 255, 0.03);
+            background-color: rgba(15, 23, 42, 0.02);
         }
 
         .title:focus {
-            background-color: rgba(255, 255, 255, 0.05);
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+            background-color: rgba(15, 23, 42, 0.04);
+            box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.05);
         }
 
         /* Text glow backing */
@@ -233,14 +238,14 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             color: transparent;
-            filter: blur(18px);
-            opacity: 0.35;
+            filter: blur(14px);
+            opacity: 0.12;
             transition: opacity 0.5s ease;
             pointer-events: none;
         }
 
         .card:hover .title::after {
-            opacity: 0.6;
+            opacity: 0.22;
         }
 
         /* Floating editor tooltip hint */
@@ -252,13 +257,14 @@
             align-items: center;
             justify-content: center;
             gap: 4px;
-            opacity: 0.6;
+            opacity: 0.7;
             transition: opacity 0.3s ease;
         }
 
         .title:hover ~ .edit-hint,
         .edit-hint:hover {
             opacity: 1;
+            color: var(--text-secondary);
         }
 
         .edit-icon {
@@ -286,8 +292,8 @@
         }
 
         .badge {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(15, 23, 42, 0.03);
+            border: 1px solid rgba(15, 23, 42, 0.05);
             padding: 6px 14px;
             border-radius: 100px;
             font-size: 0.8rem;
@@ -297,14 +303,14 @@
         }
 
         .card:hover .badge {
-            background: rgba(56, 189, 248, 0.08);
-            border-color: rgba(56, 189, 248, 0.2);
-            color: #bae6fd;
+            background: rgba(79, 70, 229, 0.08);
+            border-color: rgba(79, 70, 229, 0.15);
+            color: #4f46e5;
         }
 
         /* Interactive Action Button */
         .cta-button {
-            background: var(--primary-gradient);
+            background: var(--cta-gradient);
             color: #ffffff;
             border: none;
             border-radius: 16px;
@@ -314,7 +320,7 @@
             font-weight: 600;
             cursor: pointer;
             box-shadow: 0 10px 25px var(--button-glow),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -333,7 +339,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: all 0.6s ease;
         }
 
@@ -343,8 +349,8 @@
 
         .cta-button:hover {
             transform: scale(1.03) translateY(-2px);
-            box-shadow: 0 15px 30px var(--button-glow),
-                        0 0 25px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 15px 30px rgba(79, 70, 229, 0.3),
+                        0 0 25px rgba(79, 70, 229, 0.15);
         }
 
         .cta-button:active {
@@ -375,12 +381,12 @@
 
         @keyframes pulseGlow {
             0%, 100% {
-                filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.4));
+                filter: drop-shadow(0 4px 8px rgba(79, 70, 229, 0.2));
                 transform: scale(1);
             }
             50% {
-                filter: drop-shadow(0 0 18px rgba(56, 189, 248, 0.8));
-                transform: scale(1.06);
+                filter: drop-shadow(0 6px 16px rgba(79, 70, 229, 0.45));
+                transform: scale(1.05);
             }
         }
 
@@ -391,7 +397,7 @@
                 border-radius: 24px;
             }
             .title {
-                font-size: 2.6rem; /* Scaled down for mobile but still much larger than before */
+                font-size: 32px; /* Scaled down for mobile */
             }
             .subtitle {
                 font-size: 0.95rem;
@@ -422,7 +428,7 @@
             </div>
             
             <!-- Editable Title: displays the requested text -->
-            <h1 class="title" contenteditable="true" data-text="내 첫번재 아이디어" spellcheck="false" id="ideaTitle">내 첫번재 아이디어</h1>
+            <h1 class="title" contenteditable="true" data-text="오늘도 힘내세요!" spellcheck="false" id="ideaTitle">오늘도 힘내세요!</h1>
             
             <div class="edit-hint">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="edit-icon">
@@ -459,10 +465,10 @@
 
         // --- 2. Interactive Title Storage & Editor Management ---
         const titleEl = document.getElementById('ideaTitle');
-        const defaultText = '내 첫번재 아이디어';
+        const defaultText = '오늘도 힘내세요!';
 
         // Load saved idea from client local storage
-        const savedIdea = localStorage.getItem('myFirstIdea');
+        const savedIdea = localStorage.getItem('dailyCheerText');
         if (savedIdea) {
             titleEl.textContent = savedIdea;
             titleEl.setAttribute('data-text', savedIdea);
@@ -478,7 +484,7 @@
                 text = defaultText;
                 titleEl.textContent = text;
             }
-            localStorage.setItem('myFirstIdea', text);
+            localStorage.setItem('dailyCheerText', text);
             titleEl.setAttribute('data-text', text);
         });
 
@@ -526,8 +532,8 @@
                 }
             }
             draw() {
-                // Blue Theme Particles
-                ctx.fillStyle = `rgba(56, 189, 248, ${this.alpha})`;
+                // Subtle grayish blue / slate particles
+                ctx.fillStyle = `rgba(71, 85, 105, ${this.alpha * 0.3})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -546,9 +552,9 @@
                 this.speedY = Math.sin(angle) * speed;
                 this.alpha = 1;
                 this.decay = Math.random() * 0.02 + 0.012;
-                // Blue/Cyan/Azure Hue Spectrum (190 to 230)
-                const hue = [190, 200, 215, 230][Math.floor(Math.random() * 4)] + (Math.random() * 10 - 5);
-                this.color = `hsl(${hue}, 100%, 65%)`;
+                // Elegant Indigo/Purple Hue Spectrum (230 to 270)
+                const hue = [230, 245, 260, 270][Math.floor(Math.random() * 4)] + (Math.random() * 10 - 5);
+                this.color = `hsl(${hue}, 85%, 60%)`;
             }
             update() {
                 this.x += this.speedX;
