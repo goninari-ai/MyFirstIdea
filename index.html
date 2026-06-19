@@ -12,28 +12,33 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Elegant light gray backgrounds */
-            --bg-color-1: #f8fafc; /* Slate 50 */
-            --bg-color-2: #e2e8f0; /* Slate 200 */
+            /* Premium Light Green / Sage-Forest theme */
+            --bg-color-1: #f4fcf7; /* Very light mint-tinted gray */
+            --bg-color-2: #e1efe6; /* Sage slate gray */
             --bg-color-3: #ffffff;
             
-            /* Soft warm-white/indigo radial light glow */
-            --accent-glow: radial-gradient(circle 600px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(99, 102, 241, 0.08), rgba(255, 255, 255, 0.7) 70%, transparent 100%);
+            /* Soft light green spotlight glow */
+            --accent-glow: radial-gradient(circle 600px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(34, 197, 94, 0.05), rgba(255, 255, 255, 0.7) 70%, transparent 100%);
             
-            /* Premium light card glassmorphism */
-            --card-bg: rgba(255, 255, 255, 0.65);
-            --card-border: rgba(255, 255, 255, 0.8);
+            /* Premium light card glassmorphism with white/green tint */
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --card-border: rgba(255, 255, 255, 0.95);
             
-            /* Deep luxurious text colors */
-            --text-primary: #0f172a;   /* Slate 900 */
-            --text-secondary: #475569; /* Slate 600 */
-            --text-muted: #94a3b8;     /* Slate 400 */
+            /* Deep luxurious forest text colors */
+            --text-primary: #022c22;   /* Deep Forest Green (Very Dark) */
+            --text-secondary: #164e3f; /* Deep sage text */
+            --text-muted: #64748b;
             
-            /* Luxurious Dark Indigo-Slate gradient for typography */
-            --primary-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-            /* Bright Royal Blue to Ocean Blue gradient for main CTA button */
-            --cta-gradient: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            --button-glow: rgba(37, 99, 235, 0.25);
+            /* Gradient for Title (Charcoal Forest Gradient) */
+            --primary-gradient: linear-gradient(135deg, #022c22 0%, #064e3b 60%, #155e44 100%);
+            
+            /* Button colors (Primary for default, Secondary for hover) */
+            --btn-default-bg: #86efac; /* Light Green */
+            --btn-default-text: #022c22; /* Dark text for yellow/green readability */
+            --btn-hover-bg: #064e3b; /* Dark Forest Green */
+            --btn-hover-text: #ffffff;
+            
+            --button-glow: rgba(134, 239, 172, 0.35);
         }
 
         * {
@@ -67,11 +72,11 @@
 
         /* Header Style - Blue Background */
         .app-header {
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); /* Premium Royal Blue */
+            background: linear-gradient(135deg, #022c22 0%, #064e3b 100%); /* Deep Forest Green */
             color: #ffffff;
             padding: 16px 28px;
-            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(2, 44, 34, 0.15);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             position: sticky;
             top: 0;
             z-index: 10;
@@ -95,7 +100,7 @@
         .header-icon-svg {
             width: 24px;
             height: 24px;
-            color: #93c5fd; /* Soft sky blue */
+            color: #86efac; /* Primary light green */
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
 
@@ -137,7 +142,7 @@
             left: 50%;
             width: 0;
             height: 2px;
-            background-color: #93c5fd; /* Sky blue indicator */
+            background-color: #86efac; /* Light green indicator */
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             transform: translateX(-50%);
         }
@@ -215,8 +220,8 @@
 
         .review-card:hover {
             transform: translateY(-4px);
-            border-color: rgba(79, 70, 229, 0.2);
-            box-shadow: 0 15px 35px rgba(79, 70, 229, 0.06);
+            border-color: rgba(134, 239, 172, 0.4);
+            box-shadow: 0 15px 35px rgba(6, 78, 59, 0.05);
         }
 
         .review-user-info {
@@ -292,13 +297,13 @@
             position: relative;
         }
 
-        /* Footer Style - Gray Background */
+        /* Footer Style - Sage Gray Background */
         .app-footer {
-            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%); /* Elegant gray gradient */
-            color: #475569; /* Slate 600 */
+            background: linear-gradient(135deg, #e1efe6 0%, #cfded5 100%); /* Elegant sage gray gradient */
+            color: #164e3f; /* Deep sage text */
             padding: 20px 24px;
             text-align: center;
-            border-top: 1px solid rgba(15, 23, 42, 0.05);
+            border-top: 1px solid rgba(2, 44, 34, 0.08);
             box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.02);
         }
 
@@ -377,7 +382,7 @@
             bottom: 0;
             border-radius: 28px;
             padding: 1.5px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4), rgba(79, 70, 229, 0.15));
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4), rgba(134, 239, 172, 0.2));
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
@@ -389,8 +394,8 @@
         .card:hover {
             transform: translateY(-8px);
             border-color: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 45px 90px rgba(15, 23, 42, 0.1), 
-                        0 0 40px rgba(79, 70, 229, 0.05),
+            box-shadow: 0 45px 90px rgba(2, 44, 34, 0.08), 
+                        0 0 40px rgba(134, 239, 172, 0.1),
                         inset 0 1px 0 rgba(255, 255, 255, 1);
         }
 
@@ -403,7 +408,7 @@
             position: absolute;
             width: 240px;
             height: 240px;
-            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
             filter: blur(80px);
             top: -90px;
             left: -90px;
@@ -436,15 +441,15 @@
         .card:hover .icon-wrapper {
             transform: rotate(-5deg) scale(1.08);
             background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
-            border-color: rgba(79, 70, 229, 0.15);
-            box-shadow: 0 12px 28px rgba(79, 70, 229, 0.08);
+            border-color: rgba(6, 78, 59, 0.15);
+            box-shadow: 0 12px 28px rgba(6, 78, 59, 0.08);
         }
 
         .idea-icon {
             width: 44px;
             height: 44px;
-            color: #4f46e5;
-            filter: drop-shadow(0 4px 8px rgba(79, 70, 229, 0.25));
+            color: var(--text-secondary);
+            filter: drop-shadow(0 4px 8px rgba(134, 239, 172, 0.4));
             animation: pulseGlow 3s infinite ease-in-out;
         }
 
@@ -558,15 +563,15 @@
         }
 
         .card:hover .badge {
-            background: rgba(79, 70, 229, 0.08);
-            border-color: rgba(79, 70, 229, 0.15);
-            color: #4f46e5;
+            background: rgba(134, 239, 172, 0.15);
+            border-color: rgba(6, 78, 59, 0.15);
+            color: #064e3b;
         }
 
         /* Interactive Action Button */
         .cta-button {
-            background: var(--cta-gradient);
-            color: #ffffff;
+            background: var(--btn-default-bg);
+            color: var(--btn-default-text);
             border: none;
             border-radius: 16px;
             padding: 18px 40px;
@@ -603,52 +608,15 @@
         }
 
         .cta-button:hover {
+            background: var(--btn-hover-bg);
+            color: var(--btn-hover-text);
             transform: scale(1.03) translateY(-2px);
-            box-shadow: 0 15px 30px rgba(79, 70, 229, 0.3),
-                        0 0 25px rgba(79, 70, 229, 0.15);
+            box-shadow: 0 15px 30px rgba(6, 78, 59, 0.3),
+                        0 0 25px rgba(6, 78, 59, 0.15);
         }
 
         .cta-button:active {
             transform: scale(0.97) translateY(0);
-        }
-
-        /* Dynamic Button Themes */
-        .cta-button.btn-blue {
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-        .cta-button.btn-blue:hover {
-            box-shadow: 0 15px 30px rgba(37, 99, 235, 0.35), 0 0 25px rgba(37, 99, 235, 0.15);
-        }
-
-        .cta-button.btn-yellow {
-            background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%); /* Yellow 500 to 600 */
-            color: #0f172a !important; /* Dark text for yellow readability */
-            box-shadow: 0 10px 25px rgba(234, 179, 8, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-        }
-        .cta-button.btn-yellow:hover {
-            box-shadow: 0 15px 30px rgba(234, 179, 8, 0.35), 0 0 25px rgba(234, 179, 8, 0.15);
-        }
-        .cta-button.btn-yellow .btn-arrow {
-            color: #0f172a;
-        }
-
-        .cta-button.btn-orange {
-            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); /* Orange 500 to 600 */
-            color: #ffffff !important;
-            box-shadow: 0 10px 25px rgba(249, 115, 22, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-        .cta-button.btn-orange:hover {
-            box-shadow: 0 15px 30px rgba(249, 115, 22, 0.35), 0 0 25px rgba(249, 115, 22, 0.15);
-        }
-
-        .cta-button.btn-green {
-            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); /* Green 500 to 600 */
-            color: #ffffff !important;
-            box-shadow: 0 10px 25px rgba(34, 197, 94, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-        .cta-button.btn-green:hover {
-            box-shadow: 0 15px 30px rgba(34, 197, 94, 0.35), 0 0 25px rgba(34, 197, 94, 0.15);
         }
 
         .btn-arrow {
@@ -675,11 +643,11 @@
 
         @keyframes pulseGlow {
             0%, 100% {
-                filter: drop-shadow(0 4px 8px rgba(79, 70, 229, 0.2));
+                filter: drop-shadow(0 4px 8px rgba(134, 239, 172, 0.2));
                 transform: scale(1);
             }
             50% {
-                filter: drop-shadow(0 6px 16px rgba(79, 70, 229, 0.45));
+                filter: drop-shadow(0 6px 16px rgba(134, 239, 172, 0.45));
                 transform: scale(1.05);
             }
         }
@@ -763,7 +731,7 @@
                             </div>
                             
                             <!-- Next Quote Trigger Button (Renamed & Styled from exploreBtn) -->
-                            <button class="cta-button btn-blue" id="exploreBtn">
+                            <button class="cta-button" id="exploreBtn">
                                 <span>다음 문장 보기</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="btn-arrow">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
@@ -834,20 +802,6 @@
 
         const exploreBtn = document.getElementById('exploreBtn');
 
-        // Dynamic theme switcher for Next Button based on current quote text
-        function updateButtonTheme(quoteText) {
-            exploreBtn.classList.remove('btn-blue', 'btn-yellow', 'btn-orange', 'btn-green');
-            if (quoteText === "오늘도 해냈어요!") {
-                exploreBtn.classList.add('btn-yellow');
-            } else if (quoteText === "조금씩 나아지고 있어요.") {
-                exploreBtn.classList.add('btn-orange');
-            } else if (quoteText === "이대로 계속 가봅시다.") {
-                exploreBtn.classList.add('btn-green');
-            } else {
-                exploreBtn.classList.add('btn-blue');
-            }
-        }
-
         // Load saved idea from client local storage
         const savedIdea = localStorage.getItem('dailyCheerText');
         if (savedIdea) {
@@ -857,8 +811,6 @@
             titleEl.textContent = defaultText;
             titleEl.setAttribute('data-text', defaultText);
         }
-        // Initialize theme based on loaded content
-        updateButtonTheme(titleEl.textContent.trim());
 
         // Save text changes automatically on blur (focus lost)
         titleEl.addEventListener('blur', () => {
@@ -869,7 +821,6 @@
             }
             localStorage.setItem('dailyCheerText', text);
             titleEl.setAttribute('data-text', text);
-            updateButtonTheme(text);
         });
 
         // Save on hitting 'Enter' key and trigger blur
@@ -904,9 +855,6 @@
                 
                 titleEl.style.opacity = 1;
                 titleEl.style.transform = 'translateY(0)';
-                
-                // Update color theme matching the quote
-                updateButtonTheme(newQuote);
                 
                 // Trigger sparks at the button
                 const rect = exploreBtn.getBoundingClientRect();
@@ -950,8 +898,8 @@
                 }
             }
             draw() {
-                // Subtle grayish blue / slate particles
-                ctx.fillStyle = `rgba(71, 85, 105, ${this.alpha * 0.3})`;
+                // Subtle light mint-green particles
+                ctx.fillStyle = `rgba(34, 197, 94, ${this.alpha * 0.2})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -970,8 +918,8 @@
                 this.speedY = Math.sin(angle) * speed;
                 this.alpha = 1;
                 this.decay = Math.random() * 0.02 + 0.012;
-                // Elegant Indigo/Purple Hue Spectrum (230 to 270)
-                const hue = [230, 245, 260, 270][Math.floor(Math.random() * 4)] + (Math.random() * 10 - 5);
+                // Elegant Green/Mint Hue Spectrum (120 to 170)
+                const hue = [120, 135, 150, 165][Math.floor(Math.random() * 4)] + (Math.random() * 10 - 5);
                 this.color = `hsl(${hue}, 85%, 60%)`;
             }
             update() {
