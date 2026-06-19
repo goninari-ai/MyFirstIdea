@@ -211,7 +211,7 @@
             outline: none;
             padding: 4px 10px;
             border-radius: 8px;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
             word-break: keep-all;
         }
 
@@ -240,12 +240,53 @@
             color: transparent;
             filter: blur(14px);
             opacity: 0.12;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.5s ease, opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
             pointer-events: none;
         }
 
         .card:hover .title::after {
             opacity: 0.22;
+        }
+
+        /* Next Quote Button - Bright Blue */
+        .next-btn {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); /* Bright Royal Blue to Deep Blue */
+            color: #ffffff;
+            border: none;
+            border-radius: 14px;
+            padding: 12px 28px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 24px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            outline: none;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .next-btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-refresh-icon {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .next-btn:hover .btn-refresh-icon {
+            transform: rotate(180deg);
         }
 
         /* Floating editor tooltip hint */
@@ -436,6 +477,14 @@
                 </svg>
                 <span>클릭하여 내용을 수정할 수 있습니다</span>
             </div>
+
+            <!-- Next Quote Trigger Button -->
+            <button class="next-btn" id="nextQuoteBtn">
+                <span>다음 문장 보기</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="btn-refresh-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                </svg>
+            </button>
             
             <p class="subtitle">모든 위대한 혁신은 단 하나의 작은 생각에서 시작됩니다. 화면의 빈 곳을 마우스로 클릭하거나 터치하여 반짝이는 아이디어의 불꽃을 피워보세요.</p>
             
@@ -494,6 +543,40 @@
                 e.preventDefault();
                 titleEl.blur();
             }
+        });
+
+        // Quotes rotation bank
+        const quotes = [
+            "오늘도 힘내세요!",
+            "당신의 모든 아이디어가 현실이 됩니다.",
+            "새로운 도전을 두려워하지 마세요.",
+            "포기하지 않는 열정이 답을 만들어냅니다.",
+            "오늘 하루도 가장 당신답게 보내세요.",
+            "작은 생각이 세상을 바꿀 큰 시작입니다."
+        ];
+        let currentQuoteIndex = quotes.indexOf(titleEl.textContent) !== -1 ? quotes.indexOf(titleEl.textContent) : 0;
+
+        const nextQuoteBtn = document.getElementById('nextQuoteBtn');
+        nextQuoteBtn.addEventListener('click', () => {
+            currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+            const newQuote = quotes[currentQuoteIndex];
+            
+            // Trigger smooth transition
+            titleEl.style.opacity = 0;
+            titleEl.style.transform = 'translateY(-8px)';
+            
+            setTimeout(() => {
+                titleEl.textContent = newQuote;
+                titleEl.setAttribute('data-text', newQuote);
+                localStorage.setItem('dailyCheerText', newQuote);
+                
+                titleEl.style.opacity = 1;
+                titleEl.style.transform = 'translateY(0)';
+                
+                // Trigger sparks at the button
+                const rect = nextQuoteBtn.getBoundingClientRect();
+                createSparks(rect.left + rect.width / 2, rect.top + rect.height / 2);
+            }, 200);
         });
 
         // --- 3. Interactive Particles & Spark Canvas Engine ---
